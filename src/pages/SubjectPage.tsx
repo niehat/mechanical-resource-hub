@@ -118,7 +118,7 @@ export default function SubjectPage() {
               {subject.code && <span className="rounded-md bg-navy-100 px-2 py-1 font-medium text-navy-800">{subject.code}</span>}
               <span className="rounded-md bg-brand-50 px-2 py-1 font-medium text-brand-800">{subject.semester_name}</span>
               <span className="rounded-md bg-navy-50 px-2 py-1 text-navy-700">
-                {subject.credit_hours != null ? `${subject.credit_hours} credit hours` : 'Credit hours not set'}
+                {subject.credit_hours != null   ? `${Number(subject.credit_hours)} credit hours`   : 'Credit hours not set'}
               </span>
             </div>
           </div>
