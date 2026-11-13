@@ -1,3 +1,4 @@
+
 import {
   createContext,
   useCallback,
@@ -35,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [adminResult, setAdminResult] =
     useState<AdminCheckResult | null>(null);
 
+  // Load the current Supabase session and listen for auth changes.
   useEffect(() => {
     let mounted = true;
 
@@ -63,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const userId = session?.user.id;
 
+  // Check whether the current user is an administrator.
   useEffect(() => {
     if (!userId) {
       setAdminResult(null);
@@ -102,16 +105,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [userId]);
 
   // A result is valid only for the currently signed-in user.
-  // This prevents the login page from making an early decision.
-  const isAdmin =
-    Boolean(userId) &&
-    adminResult?.userId === userId &&
-    adminResult.isAdmin;
+  const isAdmin = Boolean(
+    userId &&
+    adminResult &&
+    adminResult.userId === userId &&
+    adminResult.isAdmin
+  );
 
+  // Keep loading until the current user's admin check is complete.
   const adminLoading =
     Boolean(userId) &&
-    adminResult?.userId !== userId;
+    (!adminResult || adminResult.userId !== userId);
 
+  // Sign in with email and password.
   const signIn = useCallback(
     async (email: string, password: string) => {
       const { error } = await supabase.auth.signInWithPassword({
@@ -126,6 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  // Sign out from Supabase.
   const signOut = useCallback(async () => {
     const { error } = await supabase.auth.signOut();
 
