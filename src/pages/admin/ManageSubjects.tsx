@@ -57,7 +57,7 @@ export default function ManageSubjects() {
                     <td className="px-4 py-3 font-medium text-navy-900"><Link className="hover:text-brand-700" to={`/semester/${s.semester_number}/subject/${s.id}`}>{s.name}</Link></td>
                     <td className="px-4 py-3">{s.code ?? '–'}</td>
                     <td className="px-4 py-3">{s.semester_name}</td>
-                    <td className="px-4 py-3">{s.credit_hours ?? '–'}</td>
+                    <td className="px-4 py-3">   {s.credit_hours != null ? String(Number(s.credit_hours)) : '–'} </td>
                     <td className="px-4 py-3">{s.teacher_name ?? '–'}</td>
                     <td className="px-4 py-3">{s.resource_count}</td>
                     <td className="px-4 py-3">
